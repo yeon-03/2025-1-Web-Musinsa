@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="https://www.musinsa.com/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.8/dist/web/static/pretendard.css">
+    <title>무신사</title>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="rank.css">
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <script src="data_category.js"></script>
+    <script src="header.js"></script>
+    <!-- 상품데이터 -->
+    <script src="data_product.js"></script>
+    <!-- 페이지 1440px 제한 -->
+    <div class="rank_page_box">
+        <!-- 상위 카테고리 -->
+        <div class="rank_header">
+            <!-- 상위 카테고리 드롭다운 -->
+            <div class="sup_dropdown">
+                <ul></ul>
+            </div>
+            <button onclick="suptoggle()" class="curtain"></button>
+            <div>
+                <div class="super_ctgr">
+                    <button style="all: unset; display: flex; align-items: center;" onclick="suptoggle()">
+                        <p class="selected_ctgr"></p>
+                        <svg class="suptoggle_icon" width="12" height="12" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" data-mds="IcArrowDown">
+                            <path d="M4 8L9.78787 13.7879C9.90503 13.905 10.095 13.905 10.2121 13.7879L16 8"
+                                data-mds="IcArrowDown" stroke="black" vector-effect="non-scaling-stroke"></path>
+                        </svg>
+                    </button>
+                    <svg onclick="window.name = 'search'; window.location.href = 'main.html'" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 20 20" fill="none"
+                        data-mds="IcBoldSearch">
+                        <path
+                            d="M12 12L16.5 16.5M13.5 8.5C13.5 11.2614 11.2614 13.5 8.5 13.5C5.73858 13.5 3.5 11.2614 3.5 8.5C3.5 5.73858 5.73858 3.5 8.5 3.5C11.2614 3.5 13.5 5.73858 13.5 8.5Z"
+                            stroke-width="1.4" stroke="black" data-mds="IcBoldSearch"
+                            vector-effect="non-scaling-stroke"></path>
+                    </svg>
+                </div>
+            </div>
+            <!-- 하위 카테고리 -->
+            <nav class="sub_ctgr_nav"></nav>
+            <!-- 필터 -->
+            <nav class="filter" aria-label="filter">
+                <div>
+                    <div id="mubaedangbal">
+                        <button id="무배당발" onclick="filter_load('무배당발')">
+                            <img src="https://image.msscdn.net/display/images/common/2025/05/12/402c0ad14619485abeed40c376c3e28f.svg"
+                                width="62px">
+                        </button>
+                    </div>
+                    <button onclick="filter_load('남성')" id="남성">&nbsp;남&nbsp;</button>
+                    <button onclick="filter_load('여성')" id="여성">&nbsp;여&nbsp;</button>
+                    <button onclick="document.querySelectorAll('.modal-overlay')[1].style.display = 'block'">가격
+                        <svg width="12" height="12" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            data-mds="IcArrowDown">
+                            <path d="M4 8L9.78787 13.7879C9.90503 13.905 10.095 13.905 10.2121 13.7879L16 8"
+                                data-mds="IcArrowDown" stroke="#8A8A8A" vector-effect="non-scaling-stroke"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div id="filter_modal">
+                    <button onclick="document.querySelectorAll('.modal-overlay')[1].style.display = 'block'">
+                        <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" class="" data-mds="IcFilter">
+                            <path d="M3 10H7M9.5 10H17M3 5H10.5M13 5H17M13 3V7M7 8V12M3 15H7M9.5 15H17M10 13V17"
+                                stroke="black" data-mds="IcFilter" vector-effect="non-scaling-stroke"></path>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+        </div>
+        <div class='rank_setting'>
+            <div id="amount">96개의 상품</div>
+            <div class="dropdown">
+                <button class="dropdown-btn">무신사 추천순<svg class="filterdropdown_toggle_icon" width="12" height="12" viewBox="0 0 20 20" aria-label="펼치기"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" data-mds="IcArrowDown">
+                            <path d="M4 8L9.78787 13.7879C9.90503 13.905 10.095 13.905 10.2121 13.7879L16 8"
+                                data-mds="IcArrowDown" stroke="#666" vector-effect="non-scaling-stroke"></path>
+                        </svg></button>
+                <div class="dropdown-content">
+                    <a onclick="dropdown_load(this.textContent)">무신사 추천순</a>
+                    <a onclick="dropdown_load(this.textContent)">낮은 가격순</a>
+                    <a onclick="dropdown_load(this.textContent)">높은 가격순</a>
+                    <a onclick="dropdown_load(this.textContent)">할인율순</a>
+                    <a onclick="dropdown_load(this.textContent)">후기순</a>
+                </div>
+            </div>
+        </div>
+        <!-- 상품목록 -->
+        <table>
+            <tbody style="font-size:13px;"></tbody>
+        </table>
+    </div>
+    <!-- 필터 모달 -->
+    <div class="modal-overlay">
+        <div class="modal-container" style="width:480px; height:584px">
+            <div
+                style="display: flex; padding: 19px 16px 9px 16px; justify-content: space-between; align-items: center;">
+                <p style="margin: 0; color:black; font-size:16px; font-weight: 450;">필터</p>
+                <button onclick="document.querySelectorAll('.modal-overlay')[1].style.display = 'none'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 20 20" fill="none"
+                        data-mds="IcDelete">
+                        <path d="M5 5L10 10M10 10L15 15M10 10L5 15M10 10L15 5" stroke="black" stroke-miterlimit="10"
+                            data-mds="IcDelete" vector-effect="non-scaling-stroke"></path>
+                    </svg>
+                </button>
+            </div>
+            <nav class="filter_nav"></nav>
+            <div class="price-filter">
+                <p style="font-size:14px; color:black; padding: 8px 0; font-weight: 450; margin: 0;">가격</p>
+                <div class="price-select"></div>
+                <div class="price-self">
+                    <input id='min' type="1number" min="0" readonly>
+                    <div style='margin: 0 2px; width: 8px'>
+                        <svg width="8" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 10H16" stroke="rgb(203, 213, 225)" stroke-width="1" stroke-miterlimit="10"
+                                vector-effect="non-scaling-stroke"></path>
+                        </svg>
+                    </div>
+                    <input id='max' type="nu1mber" readonly>
+                    <button style="padding: 0 12px" id="submit">적용</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 필터 모달 온오프
+        const filter_modal = document.querySelectorAll('.modal-overlay')[1]
+        window.addEventListener('click', event => { if (event.target === filter_modal) filter_modal.style.display = 'none' })
+        window.addEventListener('keydown', event => { if (event.key === "Escape") filter_modal.style.display = 'none' })
+
+        // 하위 카테고리 형식
+        const makeNav = (e, type, selected) => {
+            if (e == "무배당발") {
+                if (selected) document.querySelector(".ctgr_tab#전체").className += " selected"
+                return
+            }
+            const div = document.createElement("div")
+                , btn = document.createElement("button")
+            div.className = type
+            div.id = e
+            btn.textContent = e
+            if (selected) div.className += " selected"
+            btn.addEventListener('click', _ => {
+                if (Array.from(btn.parentElement.classList).includes("selected")) return
+                _ = document.querySelector(`.${type}.selected`)
+                _.classList.remove('selected')
+                btn.parentElement.classList.add('selected')
+                if (type == "ctgr_tab") document.title = (['신상', '무배당발'].includes(e) ? cur_ctgr[0] : e) + ' | 무신사 ' + (rank_site_title.get(cur_ctgr[0]) ?? '추천 상품')
+            });
+            div.appendChild(btn)
+            nav.appendChild(div)
+        }
+        // 매개변수(상위, 하위, 성별)로 받은 카테고리 정리
+        const cur_ctgr = (_ => {
+            _ = new URLSearchParams(window.location.search).get("type")?.split(",") || []
+            if (!Object.keys(categories.전체).includes(_[0])) _[0] = "뷰티"
+            if (!categories.전체[_[0]].includes(_[1]) && !categories.전체[_[0]].includes(_[1]?.replace(/\//, '/\n'))) _[1] = "신상"
+            if (!Object.keys(categories).includes(_[2])) _[2] = "전체"
+            return _
+        })()
+        // 카테고리 적용
+        document.querySelector("p[class=selected_ctgr]").textContent = cur_ctgr[0]
+        let subs = categories[cur_ctgr[2]][cur_ctgr[0]]
+        if (divider[cur_ctgr[0]]) {
+            const pivot = subs.indexOf("신상", 2)
+                , cur = subs.indexOf(cur_ctgr[1])
+            subs = pivot <= cur ? subs.slice(pivot) : subs.slice(0, pivot)
+        }
+        let nav = document.querySelector("nav[class=sub_ctgr_nav]")
+        subs.forEach(e => makeNav(e.replace("신상", "전체").replace(/\/\n/, '/'), "ctgr_tab", e.replace(/\/\n/, '/') == cur_ctgr[1]));
+        (() => {
+            const nav = document.querySelector('.sub_ctgr_nav');
+            const divs = nav.querySelectorAll('.ctgr_tab');
+            const newDiv = document.createElement('div');
+            newDiv.id = 'newDiv'
+            newDiv.className = 'sub_ctgr_nav'
+            newDiv.style.overflow = 'visible'
+            newDiv.style.padding = '0'
+            divs.forEach(div => newDiv.appendChild(div))
+            nav.appendChild(newDiv)
+        })();
+
+        // 카테고리별 헤더 색상, 탭 제목
+        document.querySelector('.h_container').style.background = { 뷰티: '#f2665e', 신발: '#5e6468', '스포츠/레저': '#37b0f4', 아울렛: '#b90000', 부티크: 'blue', 키즈: '#ff5f00' }[cur_ctgr[0]] || '#1a1b1f'
+        if (cur_ctgr[0] == "키즈") document.querySelector('.h_container').style.color = 'rgba(0, 0, 0, 0.8)'
+        document.title = (['신상', '무배당발'].includes(cur_ctgr[1]) ? cur_ctgr[0] : cur_ctgr[1]) + ' | 무신사 ' + (rank_site_title.get(cur_ctgr[0]) ?? '추천 상품')
+
+        // 카테고리 숨김
+        let scrollTimerId = null, before = 0;
+        window.addEventListener('scroll', () => {
+            if (scrollTimerId) clearTimeout(scrollTimerId)
+            scrollTimerId = setTimeout(() => {
+                if (window.scrollY > Math.max(44, before)) document.querySelectorAll('.rank_header > nav').forEach(e => e.classList.add('up'))
+                else document.querySelectorAll('.rank_header > nav').forEach(e => e.classList.remove('up'));
+                scrollTimerId = null, before = window.scrollY;
+            }, 1000);
+        });
+
+        let currentX = 0;
+        const container = document.querySelector('.sub_ctgr_nav');
+        const content = document.getElementById('newDiv');
+        let isDragging = false;
+        let startX;
+
+        container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            container.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            const diffX = e.clientX - startX;
+            let newX = currentX + diffX;
+
+            const containerRect = container.getBoundingClientRect();
+            const contentRect = content.getBoundingClientRect();
+
+            if (newX < containerRect.width - contentRect.width - 20) newX = containerRect.width - contentRect.width - 20;
+            if (newX > 0) newX = 0;
+
+            content.style.transform = `translateX(${newX}px)`;
+            currentX = newX;
+            startX = e.clientX;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                container.style.cursor = 'grab';
+            }
+        });
+
+        document.addEventListener('mouseleave', () => {
+            if (isDragging) {
+                isDragging = false;
+                container.style.cursor = 'grab';
+            }
+        });
+
+
+        // 상위 카테고리 드롭다운 함수
+        const suptoggle = _ => [document.querySelector(".sup_dropdown"), document.querySelector(".curtain"), document.querySelector(".suptoggle_icon")].forEach(e => e.classList.toggle("open"))
+        // 상위 카테고리 드롭다운 구성
+        const sd = document.querySelector(".sup_dropdown ul")
+        for (const i of Object.keys(categories.전체)) {
+            const li = document.createElement("li")
+                , a = document.createElement("a")
+            a.textContent = i
+            a.href = `rank.html?type=${i},신상,전체`
+            if (i == cur_ctgr[0]) li.className = "selected"
+            li.appendChild(a)
+            sd.appendChild(li)
+        }
+
+        // 필터 모달 구성
+        nav = document.querySelector("nav[class=filter_nav]");
+        ['스타일', '컬러', '가격', '사이즈', '브랜드', '상세옵션', '상품유형'].forEach(e => makeNav(e, "filter_tab", e == "가격"));
+        // 필터 직접입력 설정
+        ['min', 'max'].forEach(ee => {
+            input = document.getElementById(ee);
+            input.placeholder = Math[ee](...Object.values(products[cur_ctgr[0]]).map(e => e.price)).toLocaleString()
+            input.addEventListener('input', e => {
+                const value = e.target.value.replace(/[^0-9]/g, '')
+                e.target.value = (value === '' || value == 0) ? '' : parseInt(value).toLocaleString()
+            });
+        })
+
+        // 가격 필터 선택지 생성
+        const ps = document.querySelector('.price-select');
+        const btns = [
+            { id: ' , ', label: '전체' },
+            { id: '0 , 50000', label: '5만원 이하' },
+            { id: '50000 , 100000', label: '5만원 ~ 10만원' },
+            { id: '100000 , 200000', label: '10만원 ~ 20만원' },
+            { id: '200000 , 300000', label: '20만원 ~ 30만원' },
+            { id: '300000 , ', label: '30만원 이상' },
+            { id: 'self-filter', label: '직접입력' }
+        ];
+        btns.forEach((b, i) => {
+            const ischecked = i == 0
+            const d = document.createElement('div');
+            const btn = document.createElement('button');
+            btn.setAttribute('role', 'radio');
+            btn.setAttribute('aria-checked', ischecked);
+            if (ischecked) btn.classList.add('selected');
+            btn.id = b.id;
+            btn.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="40" stroke="${ischecked ? 'black' : 'gray'}" stroke-width="4" fill="${ischecked ? 'black' : 'white'}" />
+      <circle cx="50" cy="50" r="20" fill="white" />
+    </svg>
+    &nbsp;&nbsp;${b.label}
+  `;
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.price-select button').forEach(button => {
+                    button.setAttribute('aria-checked', 'false');
+                    button.classList.remove('selected');
+                    const svg = button.querySelector('svg');
+                    const circles = svg.querySelectorAll('circle');
+                    circles[0].setAttribute('stroke', 'gray');
+                    circles[0].setAttribute('fill', 'white');
+                });
+
+                btn.setAttribute('aria-checked', 'true');
+                btn.classList.add('selected');
+                const svg = btn.querySelector('svg');
+                const circles = svg.querySelectorAll('circle');
+                circles[0].setAttribute('stroke', 'black');
+                circles[0].setAttribute('fill', 'black');
+                circles[1].setAttribute('fill', 'white');
+                filter_load(b.id)
+            });
+
+            d.appendChild(btn);
+            ps.appendChild(d);
+        });
+        document.getElementById('submit').addEventListener('click', () => filter_load('self-filter'))
+
+        document.querySelector('.dropdown-btn').addEventListener('click', function (event) {
+            document.querySelector('.dropdown').classList.toggle('show');
+            document.querySelector('.filterdropdown_toggle_icon').classList.toggle('up')
+            event.stopPropagation();
+        });
+
+        // 상품 구성 함수들
+        const numformat = num => {
+            if (num >= 10000) return (Math.floor(num / 1000) / 10) + '만+';
+            else if (num >= 1000) return (Math.floor(num / 100) / 10) + '천+'
+            else return (num || 0).toString()
+        }
+
+        const createProductCard = data => {
+            const td = document.createElement("td");
+
+            const aImg = document.createElement("a");
+            aImg.innerHTML = `
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="" data-mds="NewIcLike" style="pointer-events:auto; cursor:pointer">
+    <path d="M9.80392 16.3294C9.91639 16.4275 10.0836 16.4275 10.1961 16.3294C11.0801 15.5587 14.7183 12.3692 16.25 10.75C16.9 10 17.5 9 17.5 7.5C17.5 5.25 16 3.5 13.75 3.5C11.85 3.5 10.8 4.65 10 6C9.2 4.65 8.15 3.5 6.25 3.5C4 3.5 2.5 5.25 2.5 7.5C2.5 9 3.1 10 3.75 10.75C5.28165 12.3692 8.91988 15.5587 9.80392 16.3294Z" stroke-miterlimit="10" fill-opacity="0.3" stroke="#FFFFFF" fill="#6B7280" data-mds="NewIcLike" vector-effect="non-scaling-stroke"></path>
+</svg>
+`
+            const heartIcon = aImg.querySelector('svg[data-mds="NewIcLike"] path');
+            heartIcon.addEventListener('click', e => {
+                e.preventDefault()
+                e.stopPropagation()
+                const isLiked = heartIcon.getAttribute('fill-opacity') === '1'
+                heartIcon.setAttribute('fill-opacity', isLiked ? '0.3' : '1');
+                heartIcon.setAttribute('fill', isLiked ? '#6B7280' : 'red');
+                heartIcon.setAttribute('stroke', isLiked ? '#FFFFFF' : 'red');
+            });
+            aImg.href = "product.html?id=" + data.id;
+            aImg.target = "_blank";
+            const img = document.createElement("img");
+            img.src = data.image;
+            aImg.appendChild(img);
+
+            const section = document.createElement("section");
+
+            const brand = document.createElement("p");
+            brand.innerHTML = `<span style="font-size:11px; font-weight: 550;"><a href="#">${data.brand}</a></span>`;
+
+            const name = document.createElement("p");
+            name.innerHTML = `<span class="p_name"><a href="#">${data.name}</a></span>`;
+
+            const price = document.createElement("p");
+            price.innerHTML = `<span style='color:#f31110'>${data.discount ? `${data.discount}%` : ""}</span> <span style="font-weight: 550;">${data.price.toLocaleString()}원</span>`;
+
+            const info = document.createElement("p");
+            info.className = "likeNrate";
+            info.innerHTML = `
+        <svg style='margin: 0 2px' width="10" height="10" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.8 16.3C9.9 16.4 10.1 16.4 10.2 16.3C11.1 15.6 14.7 12.4 16.3 10.8C16.9 10 17.5 9 17.5 7.5C17.5 5.3 16 3.5 13.8 3.5C11.8 3.5 10.8 4.6 10 6C9.2 4.6 8.2 3.5 6.3 3.5C4 3.5 2.5 5.3 2.5 7.5C2.5 9 3.1 10 3.8 10.8C5.3 12.4 8.9 15.6 9.8 16.3Z" fill="#f31110" stroke="#f31110"/>
+        </svg>
+        <span style='color:#f31110; font-size: 11px'>${numformat(data.likes)}</span>
+        <svg style='margin: 0 2px' width="10" height="10" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.3 1.1C10.2 0.8 9.8 0.8 9.7 1.1L7.2 6.4L1.1 7.5L5.1 12.2L4.2 18.4L9.9 15.9L15.6 18.7L14.8 12.5L19 8L13.1 6.6L10.3 1.1Z" fill="#fa9200" stroke="#fa9200"/>
+        </svg>
+        <span style='color:#fa9200; font-size: 11px'>${data.reviewScore}(${numformat(data.reviewCount)})</span>
+    `;
+
+            const footer = document.createElement("footer");
+            if (Object.keys(data.firstLevelOptions).length == 0) footer.innerHTML = `<p></p><p>${data.type}</p>`;
+            else footer.innerHTML = `
+        <p id='footer_${data.id}' onclick="options_open(${data.id})" style="cursor:pointer;">옵션&nbsp;
+            <svg id='svg_${data.id}' width="12" height="12" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none">
+                <path d="M4 8L10 14L16 8" stroke="gray"/>
+            </svg>
+        </p>
+        <p>${data.type}</p>
+    `;
+            if (data.quickdelivery) {
+                const footer2 = document.createElement("footer")
+                footer2.style.cssText = `color: #245eff; justify-content: flex-start; font-size: 11px; margin: 3px;`
+                const d = new Date();
+                d.setDate(d.getDate() + (d.getHours() < 22 ? 1 : 2));
+                footer2.innerHTML = `<img src="https://image.msscdn.net/display/images/common/2025/05/12/312a17b9ccf44de69d37502bfad48b76.svg" style="width: 53px;"/>&nbsp${(d.getHours() < 22 ? '내일(' : '모레(') + ['일', '월', '화', '수', '목', '금', '토'][d.getDay()]}) 도착보장`
+                section.append(brand, name, price, info, footer, footer2);
+            }
+            else section.append(brand, name, price, info, footer)
+            td.append(aImg, section);
+            return td;
+        }
+
+        const getMaxImageHeight = async imgs => {
+            const heights = await Promise.all(
+                imgs.map(img =>
+                    new Promise(resolve => {
+                        if (img.complete && img.naturalHeight !== 0) resolve(img.height);
+                        else {
+                            img.onload = () => resolve(img.height);
+                            img.onerror = () => resolve(0);
+                        }
+                    })
+                )
+            );
+            return Math.max(...heights);
+        }
+
+        const suboption = (id, op) => {
+            const bef = document.querySelector('[id^="suboptionlist"]')
+            if (bef) {
+                document.getElementById(`suboption ${bef.id.slice(14)}`).classList.remove('up')
+                bef.remove()
+                if (bef.id.slice(14).split(' ')[0] == String(id) && bef.id.slice(14).split(' ').slice(1).join(' ') == op) return
+            }
+            const anchor = document.getElementById(`suboption ${id} ${op}`).parentElement.parentElement
+                , option_modal = document.createElement('div')
+                , data = pinfo(id).secondLevelOptions[op]
+            option_modal.style.cssText = `left: 0; width: ${anchor.offsetWidth}px; background: whitesmoke;`;
+            option_modal.id = `suboptionlist ${id} ${op}`
+            option_modal.innerHTML += `${Object.keys(data).map(op => `<div class='subctgrcell'><div>${op}</div><div>${data[op] ? 'O' : 'X'}</div></div>`).join('')}`
+            anchor.parentElement.insertBefore(option_modal, anchor.nextSibling);
+            document.getElementById(`suboption ${id} ${op}`).classList.add('up')
+        }
+
+        const options_open = id => {
+            const bef = document.querySelector('[id^="option_modal"]')
+            if (bef) {
+                document.getElementById(`svg_${bef.id.slice(12)}`).classList.remove('up')
+                bef.remove()
+                if (bef.id.slice(12) == id) return
+            }
+            const anchor = document.getElementById(`footer_${id}`)
+                , option_modal = document.createElement('div')
+                , rect = anchor.getBoundingClientRect()
+                , data = pinfo(id)
+            option_modal.style.cssText = `
+    position: absolute;
+    left: ${rect.left + window.scrollX}px;
+    top: ${rect.bottom + window.scrollY + 2}px;
+    z-index: 1;
+    display: block;
+    width: ${anchor.parentElement.getBoundingClientRect().width}px;
+    max-height: 160px;
+    background: white;
+    border: 2px solid #ebebeb;
+    border-radius: 1px;
+    overflow: auto;
+`;
+            option_modal.innerHTML = `<div style='padding: 7px 0;'>
+                ${Object.keys(data.firstLevelOptions).map(op => `<div class='mainctgrcell'><div>${op}</div><div>${data.secondLevelOptions[op] ? `<svg id="suboption ${data.id} ${op}" onclick="suboption(${data.id}, '${op}')" width="12" height="12" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="stroke-black" fill="none" data-mds="IcArrowDown"><path d="M4 8L9.78787 13.7879C9.90503 13.905 10.095 13.905 10.2121 13.7879L16 8" stroke="#6B7280" data-mds="IcArrowDown" vector-effect="non-scaling-stroke"></path></svg>` : data.firstLevelOptions[op] ? 'O' : 'X'}</div></div>`).join('')}</div>`
+            option_modal.id = 'option_modal' + id
+            document.body.appendChild(option_modal)
+            if (option_modal.getBoundingClientRect().bottom > window.innerHeight) option_modal.style.top = +option_modal.style.top.slice(0, -2) - 180 + "px"
+            document.getElementById(`svg_${id}`).classList.add('up')
+        }
+
+        const sortMap = new Map([
+            ['낮은 가격순', 'price low'],
+            ['높은 가격순', 'price high'],
+            ['할인율순', 'discount'],
+            ['후기순', 'reviewScore']
+        ]);
+
+        let scrollmodaltimer = null
+        window.addEventListener('scroll', () => {
+            const mo_dal = document.querySelector('[id^="option_modal"]')
+            if (mo_dal) {
+                if (scrollmodaltimer) clearTimeout(scrollmodaltimer)
+                scrollmodaltimer = setTimeout(() => {
+                    const bef = document.querySelector('[id^="option_modal"]')
+                    document.getElementById(`svg_${bef.id.slice(12)}`).classList.remove('up')
+                    bef.remove()
+                    scrollmodaltimer = null
+                }, 1000)
+            }
+        })
+
+        const filter_load = (range, firstload) => {
+            document.querySelector("tbody").innerHTML = ''
+            if (range == 'self-filter') {
+                range = `${document.getElementById('min').value} , ${document.getElementById('max').value}`;
+                ['min', 'max'].forEach(e => document.getElementById(e).readOnly = false)
+            }
+            else if (range.includes(' , ')) ['min', 'max'].forEach(e => document.getElementById(e).readOnly = true)
+            if (['무배당발', '남성', '여성'].includes(range)) document.getElementById(range).classList.toggle('up')
+            if (cur_ctgr[1] == '무배당발' && firstload) {
+                document.getElementById('무배당발').classList.add('up')
+                document.querySelector('#무배당발 > img').src = `https://image.msscdn.net/display/images/common/2025/05/12/312a17b9ccf44de69d37502bfad48b76.svg`
+                firstload = false
+            }
+            const sort_condition = (sortfn = _ => {
+                let condition = _ ? _ : range
+                switch (condition) {
+                    case 'price low':
+                        return (a, b) => (pinfo(a).price - pinfo(b).price)
+                    case 'price high':
+                        return (a, b) => (pinfo(b).price - pinfo(a).price)
+                    case 'discount':
+                    case 'reviewScore':
+                        return (a, b) => (pinfo(b)[condition] - pinfo(a)[condition])
+                    case 'random':
+                        return () => (Math.random() - 0.5)
+                    default:
+                        return sortfn(sortMap.get(document.querySelector('.dropdown-btn').textContent) || 'random')
+                }
+            })()
+            const filter = (_ => {
+                _ = range.split(' , ').map(e => +e.replace(/,/g, ''))
+                if (!_[0]) _[0] = 0
+                if (!_[1]) _[1] = Infinity
+                if (_[0] > _[1]) _ = [_[1], _[0]]
+                _[2] = Array.from(document.getElementById('무배당발').classList).includes('up')
+                _[3] = Array.from(document.getElementById('남성').classList).includes('up')
+                _[4] = Array.from(document.getElementById('여성').classList).includes('up')
+                if (range == '무배당발') document.querySelector('#무배당발 > img').src = `https://image.msscdn.net/display/images/common/2025/05/12/${_[2] ? '312a17b9ccf44de69d37502bfad48b76' : '402c0ad14619485abeed40c376c3e28f'}.svg`
+                if (_[3] && _[4]) {
+                    document.getElementById('남성여성'.replace(range, '')).classList.toggle('up')
+                    _[3 + +(range == '남성')] = false
+                }
+                return _
+            })()
+            const trueCount = filter.slice(2).filter(item => item == true).length + 1;
+            const pros = Object.values(products[cur_ctgr[0]]).reduce((obj, cur) => {
+                let sum = 0
+                if (cur.price >= filter[0] && cur.price <= filter[1]) ++sum
+                if (filter[2] && cur.quickdelivery) ++sum
+                if (filter[3] && ['공용', '남성'].includes(cur.type)) ++sum
+                if (filter[4] && ['공용', '여성'].includes(cur.type)) ++sum
+                if (sum == trueCount) obj[cur.id] = cur
+                return obj
+            }, {})
+            document.getElementById('amount').textContent = Object.keys(pros).length + "개의 상품"
+            const table = document.querySelector("tbody")
+            let tr = document.createElement("tr"), arr = Object.keys(pros).sort(sort_condition)
+            console.log(sort_condition)
+            for (let i = 0; i < arr.length; i++) {
+                if (i % 6 == 0 && i != 0) {
+                    table.appendChild(tr)
+                    const trr = tr;
+                    (async () => {
+                        const h = await getMaxImageHeight(Array.from(trr.querySelectorAll("img")))
+                        trr.querySelectorAll("td > a").forEach(e => e.style.height = h + "px")
+                    })()
+                    tr = document.createElement("tr")
+                }
+                tr.appendChild(createProductCard(pros[arr[i]]));
+            }
+            table.appendChild(tr)
+        }
+        filter_load(',', true);
+
+        const dropdown_load = type => {
+            const dropdonw_text = document.querySelector('.dropdown-btn')
+            if (dropdonw_text.textContent == type) return
+            dropdonw_text.textContent = type
+            filter_load(sortMap.get(type) || 'random')
+        }
+    </script>
+</body>
+
+</html>

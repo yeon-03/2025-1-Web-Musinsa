@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>최근 본 | 무신사</title>
+  <link rel="icon" href="https://www.musinsa.com/favicon.ico" />
+  <link rel="stylesheet" href="header.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.8/dist/web/static/pretendard.css">
+  <style>
+    body {
+      background: #f7f7f7;
+      font-family: Pretendard, sans-serif;
+    }
+
+    .content {
+      background: #fff;
+      padding: 20px;
+      margin: 0 auto;
+      max-width: 1000px;
+      min-height: 100vh;
+    }
+
+    .header-area {
+      background-color: #f5f5f5;
+      margin: -20px -20px 24px;
+      padding: 16px 16px 0;
+    }
+
+    h1 {
+      font-size: 17px;
+      font-weight: 550;
+      margin-bottom: 30px;
+    }
+
+    .tabs {
+      display: flex;
+      font-size: 15px;
+      gap: 24px;
+    }
+
+    .tabs span {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .tabs a {
+      position: relative;
+      text-decoration: none;
+      color: #666;
+      font-size: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tabs a.active {
+      color: #000;
+      font-weight: bold;
+      border-bottom-color: #000;
+    }
+
+    .recent-list {
+      z-index: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    .recent-item {
+      max-width: 300px;
+      width: 100%;
+    }
+
+    .recent-item img {
+      width: 100%;
+      height: auto;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .recent-item .title {
+      font-size: 14px;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .recent-item .price {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .no-views {
+      flex: 1;
+      text-align: center;
+      color: #999;
+      padding: 40px 0;
+    }
+  </style>
+</head>
+
+<body data-layout-background="dark" data-layout-header="static">
+  <script src="data_product.js"></script>
+  <script src="data_category.js"></script>
+  <script src="header.js"></script>
+
+  <div class="content">
+    <div class="header-area">
+      <h1>최근 본</h1>
+      <div class="tabs">
+        <a href="javascript:void(0)" class="active">전체</a>
+        <a href="javascript:void(0)">상품</a>
+        <a href="javascript:void(0)">브랜드</a>
+      </div>
+    </div>
+    <div id="recentList" class="recent-list"></div>
+  </div>
+
+  <script>
+    const VIEWS_KEY = 'recent';
+
+    // 로컬스토리지에서 가져오기
+    function getViews() {
+      try {
+        return JSON.parse(localStorage.getItem(VIEWS_KEY) || '[]');
+      } catch { return []; }
+    }
+
+    // 로컬스토리지에 저장
+    function saveViews(arr) {
+      localStorage.setItem(VIEWS_KEY, JSON.stringify(arr));
+    }
+
+    // // 아이템을 recent views 에 추가 (중복 제거 → 맨 앞으로 → 최대 3개) --> 함수 미사용처리
+    // function addToRecent(item) {
+    //   let views = getViews();
+    //   views = views.filter(v => v != item.id);
+    //   views.unshift(item);
+    //   if (views.length > 3) views = views.slice(0, 3);
+    //   saveViews(views);
+    //   renderRecentList();
+    // }
+
+    // 화면에 렌더링
+    function renderRecentList() {
+      const container = document.getElementById('recentList');
+      const views = getViews();
+      container.innerHTML = '';
+
+      if (!views.length) {
+        container.innerHTML = '<div class="no-views">최근 본 상품이 없습니다.</div>';
+        container.classList.remove('recent-list')
+        return;
+      }
+
+      views.forEach(item => {
+        const info = pinfo(item)
+        const a = document.createElement('a');
+        a.href = `product.html?id=${info.id}`;
+        a.className = 'recent-item';
+        a.innerHTML = `
+          <img src="${info.image}" width='100%' alt="${info.name}">
+          <div class="title">${info.name}</div>
+          <div class="price">${info.price.toLocaleString()}원</div>
+        `;
+        // 클릭 시 다시 순서 갱신 --> 상품페이지 들어가면 그곳에서 갱신하도록 변경
+        // a.addEventListener('click', () => addToRecent(item));
+        container.appendChild(a);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', renderRecentList);
+
+    document.querySelectorAll('.tabs a').forEach(tab => {
+      tab.addEventListener('click', e => {
+        e.preventDefault();
+        // 기존 active 제거
+        document.querySelectorAll('.tabs a.active')
+          .forEach(t => t.classList.remove('active'));
+        // 클릭된 것에만 active
+        tab.classList.add('active');
+      });
+    });
+  </script>
+</body>
+
+</html>

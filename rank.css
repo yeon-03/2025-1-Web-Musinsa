@@ -1,0 +1,430 @@
+body {
+    padding-top: 208px;
+}
+
+.ctgr_tab,
+.filter_tab {
+    position: relative;
+    line-height: 19px;
+    white-space: nowrap;
+    padding: 0 8px;
+    height: 44px;
+    font-size: 14px;
+    color: #8A8A8A;
+}
+
+.ctgr_tab,
+.filter_tab {
+    height: 20px;
+}
+
+.rank_page_box {
+    max-width: 1440px;
+    width: 100%;
+    background: #f5f5f5;
+    color: #000;
+    margin: 0 auto;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.rank_header {
+    align-items: center;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1440px;
+    z-index: 900;
+}
+
+.super_ctgr {
+    padding: 8px 16px;
+    justify-content: space-between;
+    display: flex;
+    height: 36px;
+    position: relative;
+    background: #f5f5f5;
+    z-index: 990;
+}
+
+.rank_header nav {
+    background: #f5f5f5;
+    transition: transform 0.4s ease;
+    transform: translateY(0);
+    z-index: 980;
+}
+
+.rank_header nav.up {
+    transform: translateY(-100%);
+}
+
+.selected_ctgr {
+    padding: 0 3px 0 0;
+    font-size: 16px;
+    font-weight: 450;
+    margin: 0;
+}
+
+.sub_ctgr_nav,
+.filter_nav {
+    padding: 12px 8px;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+.filter {
+    align-items: center;
+    padding: 12px 0px;
+    height: 32px;
+    justify-content: space-between;
+    display: flex;
+}
+
+.filter div {
+    display: flex;
+    height: 32px;
+}
+
+.filter button,
+#submit {
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    height: 18 px;
+    background-color: transparent;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #8A8A8A;
+    padding: 6px 5px;
+    margin: 0 3px 0 0;
+    font-weight: 400;
+}
+
+.filter button.up {
+    color: #000;
+    border: 1px solid #000;
+    font-weight: 550;
+}
+
+#무배당발.up {
+    border-color: #245eff;
+}
+
+#submit {
+    height: 34px;
+    padding: 0 12px;
+    margin: 0 0 0 10px;
+    word-break: keep-all;
+}
+
+.filter button svg {
+    padding: 0 0 0 2px;
+}
+
+#mubaedangbal {
+    display: inline-flex;
+    height: 100%;
+}
+
+#mubaedangbal::before {
+    content: "";
+    display: block;
+    width: 16px;
+}
+
+#mubaedangbal::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 70%;
+    transform: translateY(30%);
+    background-color: #e0e0e0;
+    margin: 0 7px;
+}
+
+.sub_ctgr_nav::after,
+.filter_nav::after {
+    content: "";
+    position: absolute;
+    top: calc(100% + 10.5px);
+    left: -8px;
+    height: 1px;
+    width: 200%;
+    background: #ebebeb;
+    z-index: 980;
+}
+
+.filter_nav::after {
+    left: 0px;
+    width: 100%;
+}
+
+.sub_ctgr_nav .selected::after,
+.filter_nav .selected::after {
+    content: "";
+    position: absolute;
+    bottom: -12px;
+    left: 10%;
+    height: 2px;
+    width: 80%;
+    background: black;
+    z-index: 981;
+}
+
+.rank_setting {
+    width: 100%;
+    max-width: 1408px;
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    justify-content: space-between;
+    margin: 2px 16px 12px;
+}
+
+.rank_setting div {
+    color: #666;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+#filter_modal::after {
+    content: "";
+    display: block;
+    width: 16px;
+}
+
+.price-filter {
+    padding: 8px 16px;
+}
+
+.price-select {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.price-filter div div {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.price-filter button {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+}
+
+.price-self {
+    display: flex;
+    align-items: center;
+    width: 448px;
+}
+
+.price-self input {
+    padding: 7px 27px 7px 7px;
+    width: 150px;
+    height: 18px;
+}
+
+table,
+tr,
+td,
+td p {
+    all: unset;
+}
+
+tr {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    width: 100%;
+    align-items: flex-start;
+}
+
+td {
+    white-space: normal;
+}
+
+td section {
+    margin: 0;
+    padding: 12px 8px 24px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 13px;
+}
+
+.p_name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 18px;
+}
+
+table img {
+    width: 100%;
+}
+
+td>a {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+td>a>svg {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0 0;
+}
+
+.likeNrate {
+    align-items: center;
+    display: flex;
+    margin: 2px 0 0 0;
+}
+
+footer p {
+    color: gray;
+    font-size: 11px;
+    align-items: center;
+    display: flex
+}
+
+.sup_dropdown {
+    position: absolute;
+    top: 52px;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: block;
+    left: 0;
+    right: 0;
+    background: #f5f5f5;
+    transform: translateY(-200%);
+    transition: transform 0.4s ease;
+    z-index: 985;
+}
+
+.sup_dropdown.open {
+    transform: translateY(0);
+}
+
+.curtain {
+    position: absolute;
+    top: -50vw;
+    left: -50vw;
+    width: 200vw;
+    height: 200vw;
+    z-index: 984;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.curtain.open {
+    display: block;
+}
+
+.sup_dropdown li {
+    all: unset;
+    height: 40px;
+    font-size: 13px;
+    color: #666;
+    align-items: center;
+    display: flex;
+}
+
+.suptoggle_icon.open {
+    transform: rotate(180deg);
+}
+
+.sup_dropdown ul {
+    margin: 12px 16px 72px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 600px;
+    gap: 0 10px;
+}
+
+.mainctgrcell,
+.subctgrcell {
+    margin: 0;
+    padding: 4px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mainctgrcell>div,
+.subctgrcell>div {
+    margin: 0;
+    padding: 0;
+    font-size: 11px;
+    color: #666;
+}
+
+footer p svg,
+[id^="suboption"] {
+    transform: rotate(0);
+}
+
+footer p svg.up,
+[id^="suboption"].up {
+    transform: rotate(180deg);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    cursor: pointer;
+    align-items: center;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    width: 120px;
+    z-index: 1;
+    right: 0;
+    top: 100%
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown.show .dropdown-content {
+    display: block;
+}
+
+.filterdropdown_toggle_icon {
+    transform: rotate(0);
+    margin: 0 0 0 1px;
+}
+.filterdropdown_toggle_icon.up {
+    transform: rotate(180deg);
+}

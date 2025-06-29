@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>무신사</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.8/dist/web/static/pretendard.css">
+  <style>
+    body {
+      background: #f6f6f6;
+      margin: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    img {
+      user-drag: none;
+      -webkit-user-drag: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    /* --- 상단 3개 이미지 슬라이더 --- */
+    .slider-container {
+      position: relative;
+      width: 100vw;
+      max-width: 100vw;
+      overflow: hidden;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      margin: 0 auto 48px auto;
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+      width: calc(100vw * 4);
+    }
+
+    .slide-group {
+      display: flex;
+      width: 100vw;
+      min-width: 100vw;
+      height: 400px;
+    }
+
+    .slide-group img {
+      width: 33.333vw;
+      height: 100%;
+      object-fit: cover;
+      background: #eee;
+      border: none;
+      outline: none;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 2rem;
+      cursor: pointer;
+      outline: none;
+      transition: background 0.2s, opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .slider-btn.left {
+      left: 16px;
+    }
+
+    .slider-btn.right {
+      right: 16px;
+    }
+
+    .slider-container:hover .slider-btn {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .slider-btn:hover {
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    @media (max-width: 900px) {
+      .slide-group {
+        height: 250px;
+      }
+
+      .slider-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .slide-group {
+        height: 140px;
+      }
+
+      .slide-group img {
+        width: 33.333vw;
+      }
+    }
+
+    /* --- 러닝 추천 슬라이더 --- */
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 32px 0 16px 4vw;
+      color: #222;
+    }
+
+    .slider-inner {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0 0 24px 0;
+      cursor: grab;
+      user-select: none;
+      background: #fff;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+    }
+
+    .slider-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .slide-item {
+      flex: 0 0 320px;
+      max-width: 340px;
+      min-width: 280px;
+      margin: 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      cursor: pointer;
+      transition: box-shadow 0.18s;
+    }
+
+    .slide-item:hover {
+      box-shadow: 0 4px 18px rgba(44, 71, 255, 0.11);
+      z-index: 2;
+    }
+
+    .slide-item img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #eee;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+
+    .item-brand {
+      font-size: 1.05rem;
+      color: #888;
+      margin-bottom: 2px;
+      font-weight: 500;
+    }
+
+    .item-name {
+      font-size: 1.12rem;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 2px;
+      text-align: left;
+      max-width: 320px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .item-price {
+      font-size: 1.08rem;
+      color: #d32f2f;
+      font-weight: 700;
+    }
+
+    @media (max-width: 1200px) {
+      .slide-item {
+        flex-basis: 220px;
+        min-width: 180px;
+      }
+
+      .slide-item img {
+        height: 140px;
+      }
+
+      .item-name,
+      .item-brand,
+      .item-price {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .slide-item {
+        flex-basis: 140px;
+        min-width: 110px;
+      }
+
+      .slide-item img {
+        height: 80px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 상단 3개 이미지 슬라이더 -->
+  <div class="slider-container">
+    <button class="slider-btn left">&#10094;</button>
+    <div class="slides" id="slides">
+      <div class="slide-group">
+        <img
+          src="https://image.msscdn.net/thumbnails/images/goods_img/20241105/4590231/4590231_17307985521556_500.jpg?w=390"
+          alt="이미지1" onclick="window.open('product.html?id=4590231', '_blank')" />
+        <img
+          src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851555/4851555_17412526134413_500.jpg?w=390"
+          alt="이미지2" onclick="window.open('product.html?id=4851555', '_blank')" />
+        <img
+          src="https://image.msscdn.net/thumbnails/images/goods_img/20231113/3707001/3707001_17096161552089_500.jpg?w=390"
+          alt="이미지3" onclick="window.open('product.html?id=3707001', '_blank')" />
+      </div>
+      <div class="slide-group">
+        <img
+          src="https://image.msscdn.net/thumbnails/images/goods_img/20241105/4590231/4590231_17307985521556_500.jpg?w=390"
+          alt="이미지1" onclick="window.open('product.html?id=4590231', '_blank')" />
+        <img
+          src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851555/4851555_17412526134413_500.jpg?w=390"
+          alt="이미지2" onclick="window.open('product.html?id=4851555', '_blank')" />
+        <img
+          src="https://image.msscdn.net/thumbnails/images/goods_img/20231113/3707001/3707001_17096161552089_500.jpg?w=390"
+          alt="이미지3" onclick="window.open('product.html?id=3707001', '_blank')" />
+      </div>
+      <div class="slide-group">
+        <img
+          src="https://image.msscdn.net/thumbnails/images/goods_img/20241105/4590231/4590231_17307985521556_500.jpg?w=390"
+          alt="이미지1" onclick="window.open('product.html?id=4590231', '_blank')" />
+        <img
+          src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851555/4851555_17412526134413_500.jpg?w=390"
+          alt="이미지2" onclick="window.open('product.html?id=4851555', '_blank')" />
+        <img
+          src="https://image.msscdn.net/thumbnails/images/goods_img/20231113/3707001/3707001_17096161552089_500.jpg?w=390"
+          alt="이미지3" onclick="window.open('product.html?id=3707001', '_blank')" />
+      </div>
+      <div class="slide-group">
+        <img
+          src="https://image.msscdn.net/thumbnails/images/goods_img/20241105/4590231/4590231_17307985521556_500.jpg?w=390"
+          alt="이미지1" onclick="window.open('product.html?id=4590231', '_blank')" />
+        <img
+          src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851555/4851555_17412526134413_500.jpg?w=390"
+          alt="이미지2" onclick="window.open('product.html?id=4851555', '_blank')" />
+        <img
+          src="https://image.msscdn.net/thumbnails/images/goods_img/20231113/3707001/3707001_17096161552089_500.jpg?w=390"
+          alt="이미지3" onclick="window.open('product.html?id=3707001', '_blank')" />
+      </div>
+    </div>
+    <button class="slider-btn right">&#10095;</button>
+  </div>
+
+  <!-- 러닝 추천 슬라이더 -->
+  <div class="section-title">스포츠 종목 아이템 추천 <span style="color:#2d6cdf;">러닝</span></div>
+  <div class="slider-inner" id="slider">
+    <!-- 9개 아이템 -->
+    <div class="slide-item" onclick="window.open('product.html?id=4590231', '_blank')">
+      <img
+        src="https://image.msscdn.net/thumbnails/images/goods_img/20241105/4590231/4590231_17307985521556_500.jpg?w=390"
+        alt="아이템1" />
+      <div class="item-brand">아디다스</div>
+      <div class="item-name">울트라부스트 5 IE1111</div>
+      <div class="item-price">125,400원</div>
+    </div>
+    <div class="slide-item" onclick="window.open('product.html?id=4851555', '_blank')">
+      <img
+        src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851555/4851555_17412526134413_500.jpg?w=390"
+        alt="아이템2" />
+      <div class="item-brand">푸마</div>
+      <div class="item-name">포에버런 나이트로 2</div>
+      <div class="item-price">112,000원</div>
+    </div>
+    <div class="slide-item" onclick="window.open('product.html?id=3707001', '_blank')">
+      <img
+        src="https://image.msscdn.net/thumbnails/images/goods_img/20231113/3707001/3707001_17096161552089_500.jpg?w=390"
+        alt="아이템3" />
+      <div class="item-brand">리복</div>
+      <div class="item-name">플로트라이드 에너지 X</div>
+      <div class="item-price">99,000원</div>
+    </div>
+    <div class="slide-item" onclick="window.open('product.html?id=4590231', '_blank')">
+      <img
+        src="https://image.msscdn.net/thumbnails/images/goods_img/20241105/4590231/4590231_17307985521556_500.jpg?w=390"
+        alt="아이템4" />
+      <div class="item-brand">아디다스</div>
+      <div class="item-name">울트라부스트 5 IE1111</div>
+      <div class="item-price">125,400원</div>
+    </div>
+    <div class="slide-item" onclick="window.open('product.html?id=4851555', '_blank')">
+      <img
+        src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851555/4851555_17412526134413_500.jpg?w=390"
+        alt="아이템5" />
+      <div class="item-brand">푸마</div>
+      <div class="item-name">포에버런 나이트로 2</div>
+      <div class="item-price">112,000원</div>
+    </div>
+    <div class="slide-item" onclick="window.open('product.html?id=3707001', '_blank')">
+      <img
+        src="https://image.msscdn.net/thumbnails/images/goods_img/20231113/3707001/3707001_17096161552089_500.jpg?w=390"
+        alt="아이템6" />
+      <div class="item-brand">언더아머</div>
+      <div class="item-name">플로트라이드 에너지 X</div>
+      <div class="item-price">99,000원</div>
+    </div>
+    <div class="slide-item" onclick="window.open('product.html?id=4590231', '_blank')">
+      <img
+        src="https://image.msscdn.net/thumbnails/images/goods_img/20241105/4590231/4590231_17307985521556_500.jpg?w=390"
+        alt="아이템7" />
+      <div class="item-brand">아디다스</div>
+      <div class="item-name">울트라부스트 5 IE1111</div>
+      <div class="item-price">125,400원</div>
+    </div>
+    <div class="slide-item" onclick="window.open('product.html?id=4851555', '_blank')">
+      <img
+        src="https://image.msscdn.net/thumbnails/images/goods_img/20250304/4851555/4851555_17412526134413_500.jpg?w=390"
+        alt="아이템8" />
+      <div class="item-brand">푸마</div>
+      <div class="item-name">포에버런 나이트로 2</div>
+      <div class="item-price">112,000원</div>
+    </div>
+    <div class="slide-item" onclick="window.open('product.html?id=3707001', '_blank')">
+      <img
+        src="https://image.msscdn.net/thumbnails/images/goods_img/20231113/3707001/3707001_17096161552089_500.jpg?w=390"
+        alt="아이템9" />
+      <div class="item-brand">언더아머</div>
+      <div class="item-name">플로트라이드 에너지 X</div>
+      <div class="item-price">99,000원</div>
+    </div>
+  </div>
+
+  <script>
+    // --- 3개 이미지 슬라이더 ---
+    const slides = document.getElementById('slides');
+    const slideGroups = slides.querySelectorAll('.slide-group');
+    const total = slideGroups.length - 1;
+    let current = 0;
+    let autoSlide;
+
+    function goNext() {
+      current++;
+      slides.style.transition = 'transform 0.6s cubic-bezier(0.8,0,0.2,1)';
+      slides.style.transform = `translateX(-${current * 100}vw)`;
+      resetAuto();
+      if (current === total) {
+        setTimeout(() => {
+          slides.style.transition = 'none';
+          current = 0;
+          slides.style.transform = `translateX(0)`;
+        }, 600);
+      }
+    }
+    function goPrev() {
+      if (current === 0) {
+        slides.style.transition = 'none';
+        current = total;
+        slides.style.transform = `translateX(-${current * 100}vw)`;
+        setTimeout(() => {
+          slides.style.transition = 'transform 0.6s cubic-bezier(0.8,0,0.2,1)';
+          current--;
+          slides.style.transform = `translateX(-${current * 100}vw)`;
+        }, 20);
+      } else {
+        current--;
+        slides.style.transition = 'transform 0.6s cubic-bezier(0.8,0,0.2,1)';
+        slides.style.transform = `translateX(-${current * 100}vw)`;
+      }
+      resetAuto();
+    }
+    document.querySelector('.slider-btn.left').onclick = goPrev;
+    document.querySelector('.slider-btn.right').onclick = goNext;
+    function startAuto() { autoSlide = setInterval(goNext, 4000); }
+    function resetAuto() { clearInterval(autoSlide); startAuto(); }
+    window.addEventListener('resize', () => {
+      slides.style.transition = 'none';
+      slides.style.transform = `translateX(-${current * 100}vw)`;
+    });
+    slides.style.transform = 'translateX(0)';
+    startAuto();
+
+    // --- 러닝 추천 슬라이더: 마우스 드래그 ---
+    const slider = document.getElementById('slider');
+    let isDown = false, startX, scrollLeft;
+    slider.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+      slider.style.cursor = 'grabbing';
+    });
+    slider.addEventListener('mouseleave', () => {
+      isDown = false;
+      slider.style.cursor = 'grab';
+    });
+    slider.addEventListener('mouseup', () => {
+      isDown = false;
+      slider.style.cursor = 'grab';
+    });
+    slider.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX);
+      slider.scrollLeft = scrollLeft - walk;
+    });
+
+    // --- 이미지 클릭 시 구매 사이트로 새 창에서 이동 ---
+    // 상단 3개 이미지 슬라이더
+    // document.querySelectorAll('.slide-group img').forEach(img => {
+    //   img.addEventListener('click', function () {
+    //     window.open(this.dataset.link, '_blank');
+    //   });
+    // });
+    // // 하단 러닝 추천 슬라이더
+    // document.querySelectorAll('.slide-item').forEach(item => {
+    //   item.addEventListener('click', function () {
+    //     window.open(this.dataset.link, '_blank');
+    //   });
+    // });
+  </script>
+</body>
+
+</html>

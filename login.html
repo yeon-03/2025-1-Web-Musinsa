@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>로그인 | 무신사</title>
+  <script>
+    if (localStorage.getItem('login') == 'true') {
+      alert('이미 로그인되어있습니다.')
+      window.location.href = new URLSearchParams(window.location.search).get("src") || 'main.html'
+    }
+  </script>
+  <link rel="icon" href="https://www.musinsa.com/favicon.ico" />
+  <link rel="stylesheet" href="login.css" />
+  <link rel="stylesheet" href="header.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.8/dist/web/static/pretendard.css">
+</head>
+
+<body>
+  <script src="data_category.js"></script>
+  <script src="header.js"></script>
+  <div id="wrap">
+    <div id="login_area">
+      <div id="login_header">
+        <h2>로그인/회원가입</h2>
+      </div>
+      <div id="login_box">
+        <form>
+          <input class="input" type="text" placeholder="아이디" />
+          <br />
+          <div class="input-group">
+            <input id="login-pw" class="input" type="password" placeholder="비밀번호" />
+            <img src="https://static.msscdn.net/ui/build/m/img/login-v2/ic-20-eye-closed.svg?v=20250526025816"
+              class="pw-toggle" data-state="hidden" alt="비밀번호 표시 토글" />
+          </div>
+          <span class="submit">
+            <a id="login-btn">로그인</a>
+          </span>
+        </form>
+        <div class="login-options">
+          <label class="checkbox">
+            <input type="checkbox" id="autologin" />
+            자동 로그인
+          </label>
+          <div class="find-links">
+            <a href="javascript:void(0)">아이디 찾기</a>
+            <span class="divider">|</span>
+            <a href="javascript:void(0)">비밀번호 찾기</a>
+          </div>
+        </div>
+        <div id="social">
+          <a href="javascript:void(0)" id="kakao">
+            <span>카카오 로그인</span>
+          </a>
+          <a href="javascript:void(0)" id="apple">
+            <span>Apple 로그인</span>
+          </a>
+        </div>
+        <div id="signup-prompt">
+          가입만 해도 즉시 20% 할인
+          <a href="signup.html?src=login.html" class="btn-signup">회원가입</a>
+        </div>
+        <div class="guest-order">
+          <span class="guest-question">비회원으로 주문하셨나요?</span>
+          <a href="javascript:void(0)" class="guest-link">비회원 주문조회</a>
+        </div>
+      </div>
+      <script>
+        const pwInput = document.getElementById('login-pw');
+        const pwToggle = document.querySelector('.pw-toggle');
+        document.querySelector('.btn-signup').href = 'signup.html?src=login.html?src=' + new URLSearchParams(window.location.search).get("src")
+
+        document.getElementById('login-btn').addEventListener('click', () => {
+          const idNpw = Array.from(document.querySelectorAll('input')).slice(0, 2)
+          if (idNpw.some(e => e.value.trim().length == 0))
+            return alert(idNpw.map((e, i) => {
+              if (e.value.trim().length == 0) return ['아이디', '비밀번호'][i]
+            }).filter(Boolean).join("와 ") + '를 입력하세요.')
+          alert('로그인 성공!')
+          localStorage.setItem('login', 'true');
+          window.location.href = new URLSearchParams(window.location.search).get("src") || 'main.html'
+        })
+
+        pwToggle.addEventListener('click', () => {
+          const isHidden = pwToggle.getAttribute('data-state') === 'hidden';
+          if (isHidden) {
+            pwInput.type = 'text';
+            pwToggle.src = 'https://static.msscdn.net/ui/build/m/img/login-v2/ic-20-eye.svg?v=20250526025816';
+            pwToggle.setAttribute('data-state', 'visible');
+          } else {
+            pwInput.type = 'password';
+            pwToggle.src = 'https://static.msscdn.net/ui/build/m/img/login-v2/ic-20-eye-closed.svg?v=20250526025816';
+            pwToggle.setAttribute('data-state', 'hidden');
+          }
+        });
+      </script>
+</body>
+
+</html>

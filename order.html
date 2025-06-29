@@ -1,0 +1,226 @@
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>주문 내역 | 무신사</title>
+  <link rel="icon" href="https://www.musinsa.com/favicon.ico" />
+  <link rel="stylesheet" href="header.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.8/dist/web/static/pretendard.css">
+  <style>
+    body {
+      background: #f7f7f7;
+      font-family: Pretendard, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .content {
+      background: #fff;
+      padding: 20px;
+      margin: 0 auto;
+      max-width: 1000px;
+      min-height: 100vh;
+    }
+
+    .header-area {
+      background-color: #f5f5f5;
+      margin: -20px -20px 24px;
+      padding: 70px 16px 0;
+    }
+
+    h1 {
+      font-size: 17px;
+      font-weight: 550;
+      margin-bottom: 25px;
+    }
+
+    .search-box {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .search-box input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px 40px 8px 12px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    .search-box .search-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      font-size: 18px;
+      color: #999;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .tabs {
+      display: flex;
+      font-size: 15px;
+      gap: 24px;
+    }
+
+    .tabs a {
+      position: relative;
+      text-decoration: none;
+      color: #666;
+      font-size: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .tabs a.active {
+      color: #000;
+      font-weight: bold;
+      border-bottom-color: #000;
+    }
+
+    .order-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    .order-item {
+      max-width: 300px;
+      width: 100%;
+    }
+
+    .order-item img {
+      width: 100%;
+      height: auto;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .order-item .title {
+      font-size: 14px;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .order-item .price {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .no-views {
+      flex: 1;
+      text-align: center;
+      color: #999;
+      padding: 40px 0;
+    }
+  </style>
+</head>
+
+<body data-layout-background="dark" data-layout-header="static">
+  <script src="data_category.js"></script>
+  <script src="data_product.js"></script>
+  <script src="header.js"></script>
+
+  <div class="content">
+    <div class="header-area">
+      <h1>주문 내역</h1>
+
+      <div class="search-box">
+        <input type="text" placeholder="상품명 / 브랜드명으로 검색하세요." />
+        <button type="button" class="search-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 12L16.5 16.5
+              M13.5 8.5C13.5 11.2614 11.2614 13.5 8.5 13.5
+              C5.73858 13.5 3.5 11.2614 3.5 8.5
+              C3.5 5.73858 5.73858 3.5 8.5 3.5
+              C11.2614 3.5 13.5 5.73858 13.5 8.5Z" stroke="#999" stroke-width="1.5" fill="none"
+              vector-effect="non-scaling-stroke" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="tabs">
+        <a href="javascript:void(0)" class="active">전체</a>
+        <a href="javascript:void(0)">오프라인 구매</a>
+        <a href="javascript:void(0)">픽업</a>
+      </div>
+    </div>
+
+    <div id="orderList" class="order-list"></div>
+  </div>
+
+  <script>
+    const ORDERS_KEY = 'orders';
+
+    // 로컬스토리지에서 주문내역 배열을 불러옵니다.
+    function getOrders() {
+      try {
+        return JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+      } catch {
+        return [];
+      }
+    }
+    // 로컬스토리지에 저장합니다.
+    function saveOrders(arr) {
+      localStorage.setItem(ORDERS_KEY, JSON.stringify(arr));
+    }
+
+    // 주문내역을 화면에 렌더링합니다.
+    function renderOrderList() {
+      const container = document.getElementById('orderList');
+      const orders = getOrders();
+      container.innerHTML = '';
+
+      if (!orders.length) {
+        container.innerHTML = '<div class="no-views">주문 내역이 없습니다.</div>';
+        container.classList.remove('order-list')
+        return;
+      }
+
+      Array.from(new Set(orders)).forEach(item => {
+        const a = document.createElement('a');
+        if (!item) return
+        const info = pinfo(item)
+        if (!info) return
+        a.href = `product.html?id=${info.id}`;
+        a.target = '_blank';
+        a.className = 'order-item';
+        a.innerHTML = `
+          <img src="${info.image}" alt="${info.name}" width='100%'>
+          <div class="title">${info.name}</div>
+          <div class="price">${info.price.toLocaleString()}원</div>
+        `;
+        container.appendChild(a);
+      });
+    }
+
+    // 탭 클릭 시 active 토글 (UI 전용)
+    function setupTabEvents() {
+      document.querySelectorAll('.tabs a').forEach(tab => {
+        tab.addEventListener('click', e => {
+          e.preventDefault();
+          document.querySelectorAll('.tabs a.active')
+            .forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderOrderList();
+      setupTabEvents();
+    });
+  </script>
+</body>
+
+</html>
